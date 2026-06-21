@@ -8,6 +8,8 @@ import { MockProvider } from './providers/mock.provider';
 import { EventsService } from './events.service';
 import { EventsController } from './events.controller';
 import { InferenceGateway } from './inference.gateway';
+import { MetricsService } from './metrics.service';
+import { HealthController } from './health.controller';
 import { Event, EventSchema } from './schemas/event.schema';
 
 @Module({
@@ -23,10 +25,11 @@ import { Event, EventSchema } from './schemas/event.schema';
       }),
     }),
   ],
-  controllers: [InferenceController, EventsController],
+  controllers: [InferenceController, EventsController, HealthController],
   providers: [
     InferenceService,
     EventsService,
+    MetricsService,
     InferenceGateway,
     // Bind the provider token to the concrete implementation.
     // Swap MockProvider here for a real engine (ONNX/Azure) with no other changes.

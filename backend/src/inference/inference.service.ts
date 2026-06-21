@@ -7,6 +7,7 @@ import type {
 import { CircuitBreaker } from './resilience/circuit-breaker';
 import { withRetry, withTimeout } from './resilience/retry';
 import { EventsService } from './events.service';
+import { MetricsService } from './metrics.service';
 
 // Injection token for the active inference provider.
 // The module decides which concrete class this resolves to (mock, ONNX, ...).
@@ -32,6 +33,7 @@ export class InferenceService {
     @Inject(INFERENCE_PROVIDER)
     private readonly provider: InferenceProvider,
     private readonly eventsService: EventsService,
+    private readonly metricsService: MetricsService,
   ) {}
 
   async runInference(frame: FrameInput): Promise<InferenceResult> {
@@ -39,22 +41,31 @@ export class InferenceService {
       `Running inference requestId=${frame.requestId} provider=${this.provider.name}`,
     );
 
-    // Layers (outer to inner): circuit breaker -> retry -> timeout -> provider
-    const result = await this.breaker.execute(() =>
-      withRetry(
-        () => withTimeout(() => this.provider.infer(frame), TIMEOUT_MS),
-        RETRY_ATTEMPTS,
-      ),
-    );
+    try {
+      // Layers (outer to inner): circuit breaker -> retry -> timeout -> provider
+      const result = await this.breaker.execute(() =>
+        withRetry(
+          () => withTimeout(() => this.provider.infer(frame), TIMEOUT_MS),
+          RETRY_ATTEMPTS,
+        ),
+      );
 
-    // Persist the event (idempotent on requestId)
-    await this.eventsService.save(frame, this.provider.name, result);
+      // Persist the event (idempotent on requestId) and record metrics
+      await this.eventsService.save(frame, this.provider.name, result);
+      this.metricsService.recordSuccess(result.latency_ms);
 
-    this.logger.log(
-      `Inference done requestId=${frame.requestId} risk=${result.risk.level} ` +
-        `breaker=${this.breaker.getState()}`,
-    );
-    return result;
+      this.logger.log(
+        `Inference done requestId=${frame.requestId} risk=${result.risk.level} ` +
+          `breaker=${this.breaker.getState()}`,
+      );
+      return result;
+    } catch (err) {
+      this.metricsService.recordError();
+      this.logger.error(
+        `Inference failed requestId=${frame.requestId} breaker=${this.breaker.getState()}`,
+      );
+      throw err;
+    }
   }
 
   // Exposed so the metrics endpoint can report breaker state later
