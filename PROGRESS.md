@@ -1,7 +1,19 @@
 # Progress — realtime-ai-platform
 
 > Documento de acompanhamento. Onde paramos e como rodar o que já existe.
-> Última atualização: 17/06/2026 (noite).
+> Última atualização: 21/06/2026. **Backend completo (Partes 1 e 2). Falta frontend (Etapa 3) e entrega (Etapa 4).**
+
+## Rotas do Módulo de IA (Parte 2 — completa)
+
+| Método | Rota | O que faz |
+|--------|------|-----------|
+| POST | `/inference/frames` | Roda inferência (MockProvider), retorna emotions/ppe/risk |
+| GET | `/events/recent?limit=20` | Eventos recentes (painel lateral) |
+| GET | `/events/stats` | 3 agregações: EPI %, emoções, tempo entre riscos altos |
+| GET | `/health/metrics` | Latência média, taxa de erro, eventos, circuit breaker |
+| WS | `ws://localhost:3001` (Socket.IO) | Stream de frames a cada 500ms (auth por token, evento `frame`) |
+
+Testes: `cd backend && npx jest src/inference` → 12 passando.
 
 ## Visão geral do projeto
 

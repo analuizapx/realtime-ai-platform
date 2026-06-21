@@ -34,9 +34,12 @@ export class InferenceGateway
 
   // Called automatically when a client connects
   handleConnection(client: Socket) {
-    // Token auth: read it from the handshake (auth payload or query string)
+    // Token auth: accept it from the auth payload, the query string,
+    // or the httpOnly access_token cookie sent by the browser.
     const token =
-      client.handshake.auth?.token || client.handshake.query?.token;
+      client.handshake.auth?.token ||
+      client.handshake.query?.token ||
+      this.readCookieToken(client);
 
     if (!this.isValidToken(token)) {
       this.logger.warn(`Rejected unauthenticated socket ${client.id}`);
@@ -52,6 +55,17 @@ export class InferenceGateway
   handleDisconnect(client: Socket) {
     this.stopStreaming(client.id);
     this.logger.log(`Client disconnected: ${client.id}`);
+  }
+
+  // Extract the access_token from the cookie header of the handshake
+  private readCookieToken(client: Socket): string | undefined {
+    const cookieHeader = client.handshake.headers?.cookie;
+    if (!cookieHeader) return undefined;
+    const match = cookieHeader
+      .split(';')
+      .map((c) => c.trim())
+      .find((c) => c.startsWith('access_token='));
+    return match?.split('=')[1];
   }
 
   // Validate the JWT (same secret used for HTTP auth)
