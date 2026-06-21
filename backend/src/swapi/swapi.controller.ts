@@ -5,10 +5,13 @@ import { SwapiService } from './swapi.service';
 export class SwapiController {
   constructor(private readonly swapiService: SwapiService) {}
 
-  // GET /swapi/people?page=1 -> paginated characters
+  // GET /swapi/people?page=1&limit=20 -> paginated characters
   @Get('people')
-  getPeople(@Query('page') page?: string) {
-    return this.swapiService.getPeople(page ? Number(page) : 1);
+  getPeople(@Query('page') page?: string, @Query('limit') limit?: string) {
+    return this.swapiService.getPeople(
+      page ? Number(page) : 1,
+      limit ? Number(limit) : 10,
+    );
   }
 
   // GET /swapi/films -> list of films

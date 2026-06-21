@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&family=Orbitron:wght@500;700;900&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -6,6 +6,63 @@
 
 :root {
   color-scheme: light;
+  /* Default (corporate) themeable surfaces */
+  --surface: #ffffff;
+  --border: #e2e8f0;
+  --text-strong: #0f172a;
+  --text-muted: #64748b;
+  --accent: #0d9488;
+}
+
+/* Star Wars theme: applied on SWAPI routes */
+.theme-sw {
+  color-scheme: dark;
+  --surface: rgba(15, 23, 42, 0.6);
+  --border: rgba(255, 232, 31, 0.25);
+  --text-strong: #fef9c3;
+  --text-muted: #94a3b8;
+  --accent: #ffe81f; /* iconic Star Wars yellow */
+}
+
+/* Deep-space starfield background for the Star Wars theme.
+   Denser toward the bottom, plus a faint glow rising from below. */
+.theme-sw {
+  background-color: #05060a;
+  background-image:
+    /* soft glow at the bottom */
+    radial-gradient(120% 60% at 50% 120%, rgba(255, 232, 31, 0.06), transparent 70%),
+    /* upper-half stars (sparser) */
+    radial-gradient(1px 1px at 12% 12%, #fff, transparent),
+    radial-gradient(1px 1px at 28% 22%, rgba(255, 255, 255, 0.8), transparent),
+    radial-gradient(2px 2px at 80% 16%, #fff, transparent),
+    radial-gradient(1px 1px at 55% 8%, rgba(255, 255, 255, 0.7), transparent),
+    radial-gradient(1px 1px at 68% 32%, #fff, transparent),
+    radial-gradient(1px 1px at 40% 38%, rgba(255, 255, 255, 0.6), transparent),
+    radial-gradient(1px 1px at 90% 40%, #fff, transparent),
+    /* lower-half stars (denser) */
+    radial-gradient(1px 1px at 8% 62%, #fff, transparent),
+    radial-gradient(2px 2px at 22% 70%, rgba(255, 255, 255, 0.9), transparent),
+    radial-gradient(1px 1px at 35% 82%, #fff, transparent),
+    radial-gradient(1px 1px at 48% 66%, rgba(255, 255, 255, 0.8), transparent),
+    radial-gradient(2px 2px at 60% 90%, #fff, transparent),
+    radial-gradient(1px 1px at 72% 74%, #fff, transparent),
+    radial-gradient(1px 1px at 84% 86%, rgba(255, 255, 255, 0.9), transparent),
+    radial-gradient(1px 1px at 95% 68%, #fff, transparent),
+    radial-gradient(2px 2px at 15% 92%, rgba(255, 255, 255, 0.8), transparent),
+    radial-gradient(1px 1px at 30% 96%, #fff, transparent),
+    radial-gradient(1px 1px at 52% 78%, #fff, transparent),
+    radial-gradient(1px 1px at 66% 98%, rgba(255, 255, 255, 0.7), transparent),
+    radial-gradient(1px 1px at 78% 60%, #fff, transparent),
+    radial-gradient(2px 2px at 88% 94%, #fff, transparent);
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-size: 100% 100%;
+}
+
+/* Sci-fi display font, used for headings under the Star Wars theme */
+.sw-display {
+  font-family: 'Orbitron', sans-serif;
+  letter-spacing: 0.05em;
 }
 
 body {

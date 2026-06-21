@@ -1,5 +1,9 @@
 <script setup lang="ts">
 const auth = useAuthStore()
+const route = useRoute()
+
+// Switch only the content area to the Star Wars theme on SWAPI routes
+const isStarWars = computed(() => route.path.startsWith('/swapi'))
 
 // Make sure we know who is logged in when the layout mounts
 onMounted(() => {
@@ -15,15 +19,13 @@ const navLinks = [
 </script>
 
 <template>
-  <div class="min-h-screen text-slate-800">
-    <!-- Top navigation bar -->
+  <div class="flex min-h-screen flex-col text-slate-800">
+    <!-- Top navigation bar: always the light corporate theme -->
     <header class="border-b border-base-200 bg-white">
       <nav class="mx-auto flex max-w-7xl items-center justify-between px-6 py-3">
         <NuxtLink to="/dashboard" class="flex items-center gap-2.5">
           <span class="brand-gradient brand-halo h-3 w-3 animate-pulse rounded-full" />
-          <span class="text-lg font-semibold tracking-tight text-slate-900">
-            RealtimeAI
-          </span>
+          <span class="text-lg font-semibold tracking-tight text-slate-900">RealtimeAI</span>
         </NuxtLink>
 
         <div v-if="auth.isLoggedIn" class="flex items-center gap-1">
@@ -56,8 +58,14 @@ const navLinks = [
       </nav>
     </header>
 
-    <main class="mx-auto max-w-7xl px-6 py-8">
-      <slot />
-    </main>
+    <!-- Content area: gets the Star Wars theme only on SWAPI routes -->
+    <div
+      class="flex flex-1 flex-col transition-colors duration-500"
+      :class="{ 'theme-sw': isStarWars }"
+    >
+      <main class="mx-auto flex w-full max-w-7xl flex-1 flex-col px-6 py-8">
+        <slot />
+      </main>
+    </div>
   </div>
 </template>
