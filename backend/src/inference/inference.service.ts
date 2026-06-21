@@ -6,6 +6,7 @@ import type {
 } from './interfaces/inference.interface';
 import { CircuitBreaker } from './resilience/circuit-breaker';
 import { withRetry, withTimeout } from './resilience/retry';
+import { EventsService } from './events.service';
 
 // Injection token for the active inference provider.
 // The module decides which concrete class this resolves to (mock, ONNX, ...).
@@ -30,6 +31,7 @@ export class InferenceService {
   constructor(
     @Inject(INFERENCE_PROVIDER)
     private readonly provider: InferenceProvider,
+    private readonly eventsService: EventsService,
   ) {}
 
   async runInference(frame: FrameInput): Promise<InferenceResult> {
@@ -44,6 +46,9 @@ export class InferenceService {
         RETRY_ATTEMPTS,
       ),
     );
+
+    // Persist the event (idempotent on requestId)
+    await this.eventsService.save(frame, this.provider.name, result);
 
     this.logger.log(
       `Inference done requestId=${frame.requestId} risk=${result.risk.level} ` +
