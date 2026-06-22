@@ -163,14 +163,21 @@ Exemplo de resposta do `POST /inference/frames`:
 
 ## Capturas de tela
 
-> _(Adicionar prints do login, dashboard em tempo real, lista de usuários e páginas da SWAPI.)_
+### Login
+![Login](screenshots/login.png)
 
-| Tela | Print |
-|------|-------|
-| Login | _(screenshot)_ |
-| Dashboard em tempo real | _(screenshot)_ |
-| Usuários | _(screenshot)_ |
-| SWAPI (tema Star Wars) | _(screenshot)_ |
+### Dashboard em tempo real
+Player com overlay de bounding boxes, painel de eventos recentes e estatísticas agregadas.
+![Dashboard](screenshots/dashboard.png)
+
+### Usuários
+![Usuários](screenshots/users.png)
+
+### SWAPI — Personagens (tema Star Wars)
+![SWAPI Characters](screenshots/swap-characters.png)
+
+### SWAPI — Filmes
+![SWAPI Films](screenshots/swap-films.png)
 
 ---
 
