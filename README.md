@@ -13,8 +13,8 @@ frames de câmera, classifica o nível de risco e transmite os resultados ao viv
 > então a primeira requisição pode levar ~30–50s para responder.
 
 > **Nota de transparência:** este projeto foi desenvolvido com forte apoio de IA
-> (*AI-assisted / "vibe coding"*). A condução foi minha — decisões de arquitetura, escolhas
-> de design, priorização e validação de cada etapa —, enquanto a IA acelerou a implementação.
+> (*AI-assisted*). A condução foi minha — decisões de arquitetura, escolhas de design,
+> priorização e validação de cada etapa —, enquanto a IA acelerou a implementação.
 > Busquei compreender o porquê de cada parte do código entregue.
 
 O motor de inferência é simulado por um **MockProvider determinístico**, projetado para ser
