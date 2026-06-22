@@ -4,6 +4,14 @@ Plataforma de análise de **risco e emoção em tempo real** para segurança do 
 detecta uso de EPI (Equipamento de Proteção Individual) e estado emocional a partir de
 frames de câmera, classifica o nível de risco e transmite os resultados ao vivo.
 
+### 🚀 Demo ao vivo
+
+- **Aplicação:** https://realtime-ai-frontend.onrender.com
+- **API:** https://realtime-ai-backend-uf4r.onrender.com/health
+
+> Hospedado no Render (plano gratuito). O backend "dorme" após ~15 min de inatividade,
+> então a primeira requisição pode levar ~30–50s para responder.
+
 O motor de inferência é simulado por um **MockProvider determinístico**, projetado para ser
 substituído por um modelo real (ONNX, REST, Azure) sem quebrar o contrato da aplicação.
 
