@@ -53,10 +53,16 @@ export class AuthController {
     return this.usersService.findById(userId);
   }
 
-  // Clears the auth cookie
+  // Clears the auth cookie. Must use the SAME attributes used when setting it,
+  // otherwise the browser won't accept the clear (cookie stays and re-logs in).
   @Get('logout')
   logout(@Res() res: Response) {
-    res.clearCookie('access_token');
+    const isProd = process.env.NODE_ENV === 'production';
+    res.clearCookie('access_token', {
+      httpOnly: true,
+      secure: isProd,
+      sameSite: isProd ? 'none' : 'lax',
+    });
     return res.json({ message: 'Logged out' });
   }
 }
