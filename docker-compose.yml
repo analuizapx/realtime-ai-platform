@@ -1,0 +1,19 @@
+# Runs backend + frontend together.
+# MongoDB is hosted on Atlas (set MONGODB_URI in backend/.env).
+services:
+  backend:
+    build: ./backend
+    ports:
+      - '3001:3001'
+    env_file:
+      - ./backend/.env
+
+  frontend:
+    build: ./frontend
+    ports:
+      - '3000:3000'
+    environment:
+      # The browser talks to the backend on localhost (host-mapped port)
+      - NUXT_PUBLIC_API_BASE=http://localhost:3001
+    depends_on:
+      - backend
