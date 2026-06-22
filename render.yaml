@@ -26,6 +26,8 @@ services:
         generateValue: true
       - key: SWAPI_BASE_URL
         value: https://www.swapi.tech/api
+      - key: NODE_ENV
+        value: production
 
   # ---------------- Frontend (Nuxt 3 SPA, static) ----------------
   - type: web

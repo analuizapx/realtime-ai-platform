@@ -29,10 +29,15 @@ export class AuthController {
     const profile = req.user as GoogleProfile;
     const { token } = await this.authService.validateGoogleUser(profile);
 
+    // In production the frontend and backend live on different domains, so the
+    // cookie must be SameSite=None + Secure for the browser to send it.
+    const isProd = process.env.NODE_ENV === 'production';
+
     // Store the JWT in an httpOnly cookie (not readable by browser JS)
     res.cookie('access_token', token, {
       httpOnly: true,
-      sameSite: 'lax',
+      secure: isProd,
+      sameSite: isProd ? 'none' : 'lax',
       maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
     });
 
