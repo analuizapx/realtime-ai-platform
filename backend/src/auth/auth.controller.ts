@@ -41,8 +41,10 @@ export class AuthController {
       maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
     });
 
-    // Send the user back to the frontend, now logged in
-    return res.redirect(this.config.get<string>('FRONTEND_URL')!);
+    // Send the user back to the frontend, passing the token in the URL hash
+    // (not sent to servers) so it also works when third-party cookies are blocked.
+    const frontendUrl = this.config.get<string>('FRONTEND_URL')!;
+    return res.redirect(`${frontendUrl}/#token=${token}`);
   }
 
   // Returns the currently logged-in user (protected by JWT)

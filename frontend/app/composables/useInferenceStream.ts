@@ -33,8 +33,11 @@ export function useInferenceStream() {
     status.value = 'connecting'
 
     // withCredentials sends the httpOnly auth cookie in the handshake
+    // Pass the token explicitly (cookie may be blocked across sites)
+    const { get } = useToken()
     socket = io(apiBase, {
       withCredentials: true,
+      auth: { token: get() },
       reconnection: true,
       reconnectionDelay: 1000,
     })

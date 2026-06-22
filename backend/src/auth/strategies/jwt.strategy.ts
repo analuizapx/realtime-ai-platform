@@ -14,9 +14,12 @@ export interface JwtPayload {
 export class JwtStrategy extends PassportStrategy(Strategy, 'jwt') {
   constructor(config: ConfigService) {
     super({
-      // Read the token from the "access_token" cookie
+      // Accept the token from the "access_token" cookie OR the Authorization
+      // header. The header path is used in production, where the frontend and
+      // backend are on different sites and third-party cookies get blocked.
       jwtFromRequest: ExtractJwt.fromExtractors([
         (req: Request) => req?.cookies?.access_token,
+        ExtractJwt.fromAuthHeaderAsBearerToken(),
       ]),
       ignoreExpiration: false,
       // "!" tells TypeScript this value is always defined (it comes from .env)
