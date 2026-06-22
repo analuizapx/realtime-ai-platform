@@ -4,26 +4,30 @@ const props = defineProps<{
   score?: number
 }>()
 
-// Traffic-light semantics: green (safe) -> orange -> red (danger)
+// Color mapping per risk level
 const styles = {
-  LOW: { label: 'bg-green-600', score: 'bg-green-800' },
-  MEDIUM: { label: 'bg-orange-500', score: 'bg-orange-700' },
-  HIGH: { label: 'bg-red-600', score: 'bg-red-800' },
+  LOW: 'bg-emerald-50 text-emerald-700 border-emerald-200',
+  MEDIUM: 'bg-amber-50 text-amber-700 border-amber-200',
+  HIGH: 'bg-red-50 text-red-700 border-red-200',
 }
 </script>
 
 <template>
   <span
-    class="inline-flex items-stretch overflow-hidden rounded-full text-[11px] font-bold uppercase tracking-wider text-white shadow-sm"
-    :class="{ 'animate-pulse': props.level === 'HIGH' }"
+    class="inline-flex items-center gap-1.5 rounded-full border px-2.5 py-0.5 text-xs font-semibold"
+    :class="styles[props.level]"
   >
-    <!-- Level label -->
-    <span class="px-2.5 py-0.5" :class="styles[props.level].label">
-      {{ props.level }}
-    </span>
-    <!-- Score readout in a darker inset -->
-    <span v-if="props.score !== undefined" class="px-2 py-0.5 tabular-nums" :class="styles[props.level].score">
-      {{ (props.score * 100).toFixed(0) }}
+    <span
+      class="h-1.5 w-1.5 rounded-full"
+      :class="{
+        'bg-emerald-500': props.level === 'LOW',
+        'bg-amber-500': props.level === 'MEDIUM',
+        'bg-red-500 animate-pulse': props.level === 'HIGH',
+      }"
+    />
+    {{ props.level }}
+    <span v-if="props.score !== undefined" class="font-mono opacity-70">
+      {{ (props.score * 100).toFixed(0) }}%
     </span>
   </span>
 </template>

@@ -82,7 +82,7 @@ const detailFields = [
       <!-- List -->
       <div class="flex flex-col lg:col-span-2">
         <div v-if="loading" class="grid flex-1 gap-2 sm:grid-cols-2 lg:auto-rows-fr">
-          <div v-for="n in 20" :key="n" class="min-h-9 animate-pulse rounded-lg border" style="background: var(--surface); border-color: var(--border)" />
+          <div v-for="n in 20" :key="n" class="min-h-9 max-h-12 animate-pulse rounded-lg border" style="background: var(--surface); border-color: var(--border)" />
         </div>
 
         <div v-else-if="error" class="rounded-xl border border-red-500/40 bg-red-950/40 p-4 text-sm text-red-300">
@@ -94,7 +94,7 @@ const detailFields = [
           <button
             v-for="p in data?.results"
             :key="p.uid"
-            class="flex min-h-9 items-center justify-between rounded-lg border px-3 text-left backdrop-blur transition hover:scale-[1.02]"
+            class="flex min-h-9 max-h-12 items-center justify-between rounded-lg border px-3 text-left backdrop-blur transition hover:scale-[1.02]"
             style="background: var(--surface); border-color: var(--border)"
             :class="{ 'ring-1': selected && selected.name === p.name }"
             @click="openDetails(p)"
