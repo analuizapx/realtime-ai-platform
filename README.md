@@ -13,9 +13,12 @@ frames de câmera, classifica o nível de risco e transmite os resultados ao viv
 > então a primeira requisição pode levar ~30–50s para responder.
 
 > **Nota de transparência:** este projeto foi desenvolvido com forte apoio de IA
-> (*AI-assisted*). A condução foi minha — decisões de arquitetura, escolhas de design,
-> priorização e validação de cada etapa —, enquanto a IA acelerou a implementação.
-> Busquei compreender o porquê de cada parte do código entregue.
+> (*AI-assisted*). Conduzi a direção do trabalho — priorização, escolhas de design e
+> validação de cada etapa — e busquei compreender o porquê de cada parte entregue.
+> Sendo honesta, parte do conteúdo (em especial as respostas dissertativas da Parte 3 e
+> várias decisões de arquitetura) foi elaborada com apoio significativo da IA; sozinha,
+> hoje eu não teria repertório para respondê-las nesse nível. Encaro isso como parte do
+> meu processo de aprendizado e estou comprometida em aprofundar esses temas.
 
 O motor de inferência é simulado por um **MockProvider determinístico**, projetado para ser
 substituído por um modelo real (ONNX, REST, Azure) sem quebrar o contrato da aplicação.
